@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ghc -i../SOE/src/ -iexercises -imodules -ichapters -odir output $1
