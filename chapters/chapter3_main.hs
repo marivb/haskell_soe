@@ -1,6 +1,6 @@
 module Main where
 
-import SOE
+import Graphics.SOE
 
 main1 = runGraphics (
     do w <- openWindow "Meu Primeiro Programa Grafico" (300, 300)
@@ -41,6 +41,6 @@ sierpinskiTriangle w x y size =
 
 main = runGraphics (
     do w <- openWindow "Sierpinski Triangle" (400, 400)
-         sierpinskiTriangle w 50 300 256
+       sierpinskiTriangle w 50 300 256
        spaceClose w
     )

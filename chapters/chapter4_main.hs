@@ -2,7 +2,7 @@ module Main where
 
 import Draw
 import Shape
-import SOE
+import Graphics.SOE
 
 sh1, sh2, sh3, sh4 :: Shape
 

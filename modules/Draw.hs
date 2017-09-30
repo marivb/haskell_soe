@@ -3,7 +3,7 @@ module Draw (inchToPixel, pixelToInch, intToFloat,
   ) where
 
 import Shape
-import SOE
+import Graphics.SOE
 
 inchToPixel :: Float -> Int
 inchToPixel x = round (100 * x)
