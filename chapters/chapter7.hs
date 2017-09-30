@@ -48,6 +48,26 @@ treeHeight :: Tree a -> Integer
 treeHeight (Leaf f) = 0
 treeHeight (Branch t1 t2) = 1 + max (treeHeight t1) (treeHeight t2)
 
+-- | 7.1 redefine fringe, treeSize and treeHeight with foldTree
+-- Examples:
+--
+-- Fringe:
+-- >>> foldTree (: []) (++) tree
+-- [2,1,10]
+--
+-- Tree size:
+-- >>> foldTree (\x -> 1) (+) tree
+-- 3
+--
+-- Tree height:
+-- >>> foldTree (\x -> 0) (\h1 h2 -> 1 + (max h1 h2)) tree
+-- 2
+foldTree :: (a -> b) -> (b -> b -> b) -> Tree a -> b
+foldTree leafFunc branchFunc (Leaf x) = leafFunc x
+foldTree leafFunc branchFunc (Branch t1 t2) =
+  branchFunc (foldTree leafFunc branchFunc t1)
+             (foldTree leafFunc branchFunc t2)
+
 -- Expressions
 
 data Expr = C Float
@@ -55,6 +75,8 @@ data Expr = C Float
           | Expr :- Expr
           | Expr :* Expr
           | Expr :/ Expr
+          | Let String Expr Expr
+          | V String
 
 -- | Evaluates an arithmetic expression
 --
@@ -63,6 +85,9 @@ data Expr = C Float
 -- >>> let e = (C 10 :+ (C 8 :/ C 2)) :* (C 7 :- C 4)
 -- >>> evaluate e
 -- 42.0
+--
+-- evaluate (Let "x" (C 5) (V "x" :+ V "x"))
+-- 10
 evaluate :: Expr -> Float
 evaluate (C x) = x
 evaluate (e1 :+ e2) = evaluate e1 + evaluate e2
