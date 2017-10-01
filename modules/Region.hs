@@ -45,3 +45,12 @@ isLeftOf (px, py) ((ax, ay), (bx, by))
     = let (s, t) = (px - ax, py - ay)
           (u, v) = (px - bx, py - by)
       in s * v >= t * u
+
+containsR :: Region -> Coordinate -> Bool
+(Shape s) `containsR` p = s `containsS` p
+(Translate (u, v) r) `containsR` (x, y) = r `containsR` (x - u, y - v)
+(Scale (u, v) r) `containsR` (x, y) = r `containsR` (x/u, y/v)
+(Complement r) `containsR` p = not (r `containsR` p)
+(r1 `Union` r2) `containsR` p = r1 `containsR` p || r2 `containsR` p
+(r1 `Intersect` r2) `containsR` p = r1 `containsR` p && r2 `containsR` p
+Empty `containsR` p = False
