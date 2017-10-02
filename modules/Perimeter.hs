@@ -15,8 +15,7 @@ permiter (Ellipse r1 r2)
           = let e = sqrt (r1^2 - r2^2) / r1
                 s = scanl seq_aux (0.25 * e^2) [2..]
                 seq_aux s i = nextElem e s i
-                test x = x > epsilon
-                sSum = foldl (+) 0 (takeWhile test s)
+                sSum = foldl (+) 0 (takeWhile (> epsilon) s)
             in 2 * r1 * pi * (1 - sSum)
 
 sides :: [Vertex] -> [Side]

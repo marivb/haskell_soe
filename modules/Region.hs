@@ -30,8 +30,7 @@ containsS (Rectangle s1 s2) (x, y)
 containsS (Ellipse r1 r2) (x, y)
     = (x/r1)^2 + (y/r2)^2 <= 1
 containsS (Polygon pts) p
-    = let leftOfList = map isLeftOfP (zip pts (tail pts ++ [head pts]))
-          isLeftOfP p' = isLeftOf p p'
+    = let leftOfList = map (isLeftOf p) (zip pts (tail pts ++ [head pts]))
       in and leftOfList
 containsS (RtTriangle s1 s2) p
     = let vs = if signum s1 == signum s2 then [(0,0), (s1,0), (0,s2)]
