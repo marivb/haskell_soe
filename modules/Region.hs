@@ -1,5 +1,5 @@
 module Region (Region (Shape, Translate, Scale, Complement, Union, Intersect, Empty),
-               Coordinate,
+               Coordinate, Vector,
                containsS, containsR,
                module Shape
   ) where
