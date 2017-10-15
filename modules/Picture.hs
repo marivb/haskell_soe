@@ -8,8 +8,10 @@ module Picture (Picture (Region, Over, EmptyPicture),
 
 import Draw
 import Region
-import Graphics.SOE hiding (Region)
-import qualified Graphics.SOE as G (Region)
+--import Graphics.SOE hiding (Region)
+--import qualified Graphics.SOE as G (Region)
+import SOE hiding (Region)
+import qualified SOE as G (Region)
 
 data Picture = Region Color Region
              | Picture `Over` Picture

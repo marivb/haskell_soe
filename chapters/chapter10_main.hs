@@ -23,4 +23,4 @@ pic2 = Region Yellow (Translate (0, -1) reg2)
 
 pic3 = pic2 `Over` pic1
 
-main = draw "Chapter 10 Example" (Region Blue (Shape (Ellipse 1 1)))
+main = draw "Chapter 10 Example" pic3
