@@ -23,4 +23,14 @@ pic2 = Region Yellow (Translate (0, -1) reg2)
 
 pic3 = pic2 `Over` pic1
 
-main = draw "Chapter 10 Example" pic3
+-- main = draw "Chapter 10 Example" pic3
+
+p1, p2, p3, p4 :: Picture
+p1 = Region Red r1
+p2 = Region Blue r2
+p3 = Region Green r3
+p4 = Region Yellow r4
+
+pic :: Picture
+pic = foldl Over EmptyPicture [p1, p2, p3, p4]
+main = draw2 "Picture Clicks" pic

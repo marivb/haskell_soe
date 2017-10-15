@@ -2,7 +2,7 @@ module Picture (Picture (Region, Over, EmptyPicture),
                 Color (Black, Blue, Green, Cyan,
                        Red, Magenta, Yellow, White),
                 regionToGRegion, shapeToGRegion,
-                drawRegionInWindow, drawPicture, draw,
+                drawRegionInWindow, drawPicture, draw, draw2,
                 spaceClose, module Region
                ) where
 
@@ -79,3 +79,28 @@ draw s p = runGraphics $
            do w <- openWindow s (xWin, yWin)
               drawPicture w p
               spaceClose w
+
+pictToList :: Picture -> [(Color, Region)]
+pictToList EmptyPicture = []
+pictToList (Region c r) = [(c, r)]
+pictToList (p1 `Over` p2) = pictToList p1 ++ pictToList p2
+
+adjust :: [(Color, Region)] -> Coordinate -> (Maybe (Color, Region), [(Color, Region)])
+adjust regs p = case (break (\(_,r) -> r `containsR` p) regs) of
+                     (top, hit:rest) -> (Just hit, top ++ rest)
+                     (_, [])         -> (Nothing, regs)
+
+loop :: Window -> [(Color, Region)] -> IO ()
+loop w regs =
+  do clearWindow w
+     sequence_ [drawRegionInWindow w c r | (c,r) <- reverse regs]
+     (x, y) <- getLBP w
+     case (adjust regs (pixelToInch (x - xWin2),
+                        pixelToInch (yWin2 - y))) of
+          (Nothing, _)        -> closeWindow w
+          (Just hit, newRegs) -> loop w (hit:newRegs)
+
+draw2 :: String -> Picture -> IO ()
+draw2 s p = runGraphics $
+            do w <- openWindow s (xWin, yWin)
+               loop w (pictToList p)
